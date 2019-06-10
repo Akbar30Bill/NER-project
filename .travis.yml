@@ -1,0 +1,18 @@
+language: minimal
+
+services:
+  - docker
+
+script:
+  - docker build --target=builder .
+
+deploy:
+  - provider: script
+    script: tools/cd.sh travis-${TRAVIS_BUILD_NUMBER}
+    on:
+      branch: master
+
+  - provider: script
+    script: tools/cd.sh ${TRAVIS_TAG}
+    on:
+      tags: true
